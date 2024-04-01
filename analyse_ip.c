@@ -22,7 +22,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include "analyse_ip.h"
 #include <stdint.h>
 
@@ -46,17 +45,29 @@ int isValidAddress(char *adresse) {
     return 1;
 }
 
-void extractIPAddress(char *ip, char *mask) {
-    uint8_t octetIP[4], octetMask[4], networkAddress[4];
+void extractAddress(char *ip, char *mask) {
+    uint8_t octetIP[4], octetMask[4], address[4];
 
     sscanf(ip, "%hhu.%hhu.%hhu.%hhu", &octetIP[0], &octetIP[1], &octetIP[2], &octetIP[3]);
     sscanf(mask, "%hhu.%hhu.%hhu.%hhu", &octetMask[0], &octetMask[1], &octetMask[2], &octetMask[3]);
 
-    for (int i = 0; i < 4; i++) {
-        networkAddress[i] = octetIP[i] & octetMask[i];
-    }
-
-    printf("Network Address: %d.%d.%d.%d\n", networkAddress[0], networkAddress[1], networkAddress[2],
-           networkAddress[3]);
+//    for (int i = 0; i < 4; i++) {
+//        address[i] = octetIP[i] & octetMask[i];
+//    }
 }
 
+void extractNumericAddress(char *ip, char *mask, uint32_t *numericIP, uint32_t *numericMask) {
+    uint8_t octetIP[4], octetMask[4];
+
+    extractAddress(ip, mask);
+
+    *numericIP = (uint32_t) (octetIP[0]) << 24 |
+                 (uint32_t) (octetIP[1]) << 16 |
+                 (uint32_t) (octetIP[2]) << 8 |
+                 (uint32_t) (octetIP[3]);
+
+    *numericMask = (uint32_t) (octetMask[0]) << 24 |
+                   (uint32_t) (octetMask[1]) << 16 |
+                   (uint32_t) (octetMask[2]) << 8 |
+                   (uint32_t) (octetMask[3]);
+}

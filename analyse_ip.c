@@ -45,9 +45,7 @@ int isValidAddress(char *adresse) {
     return 1;
 }
 
-void extractAddress(char *ip, char *mask) {
-    uint8_t octetIP[4], octetMask[4], address[4];
-
+void extractAddress(char *ip, char *mask, uint8_t *octetIP, uint8_t *octetMask) {
     sscanf(ip, "%hhu.%hhu.%hhu.%hhu", &octetIP[0], &octetIP[1], &octetIP[2], &octetIP[3]);
     sscanf(mask, "%hhu.%hhu.%hhu.%hhu", &octetMask[0], &octetMask[1], &octetMask[2], &octetMask[3]);
 
@@ -59,7 +57,7 @@ void extractAddress(char *ip, char *mask) {
 void extractNumericAddress(char *ip, char *mask, uint32_t *numericIP, uint32_t *numericMask) {
     uint8_t octetIP[4], octetMask[4];
 
-    extractAddress(ip, mask);
+    extractAddress(ip, mask, octetIP, octetMask);
 
     *numericIP = (uint32_t) (octetIP[0]) << 24 |
                  (uint32_t) (octetIP[1]) << 16 |

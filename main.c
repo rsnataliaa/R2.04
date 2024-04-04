@@ -26,7 +26,7 @@
 
 int main() {
 //    char ip[MAX_LENGTH];
-    uint8_t octetIP[4], octetMask;
+    char octetIP1[4], octetIP2[4], octetIP3[4], octetIP4[4], octetMask[3];
     uint8_t intFieldIP[4], intMaskField[4];
 
     char ip[] = "192.168.10.8/24";
@@ -34,20 +34,20 @@ int main() {
 //    printf("Entrez une adresse IP : ");
 //    fgets(ip, sizeof(ip), stdin);
 
-//    if (!isValidAddress(ip)) {
-//        printf("Adresse invalide\n");
-//        return 1;
-//    }
+    if (!isValidAddress(ip)) {
+        printf("Adresse invalide\n");
+        return 1;
+    }
 //
-//    printf("Adresse IP valide\n");
-//    printf("Masque valide\n");
+    printf("Adresse IP valide\n");
+    printf("Masque valide\n");
 
-    extractAddress(ip, octetIP, &octetMask);
+    extractAddress(ip, octetIP1, octetIP2, octetIP3, octetIP4, octetMask);
 
-    printf("Adresse IP : %d.%d.%d.%d\n", octetIP[0], octetIP[1], octetIP[2], octetIP[3]);
-    printf("Masque de sous-réseau : /%d\n", octetMask);
+    printf("Adresse IP : %s.%s.%s.%s\n", octetIP1, octetIP2, octetIP3, octetIP4);
+    printf("Masque de sous-réseau : /%s\n", octetMask);
 
-    convertToInt(octetIP, octetMask, intFieldIP, intMaskField);
+    convertToInt(octetIP1, octetIP2, octetIP3, octetIP4, octetMask, intFieldIP, intMaskField);
 
     printf("IP INT : %d.%d.%d.%d\n", intFieldIP[0], intFieldIP[1], intFieldIP[2],
            intFieldIP[3]);

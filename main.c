@@ -26,37 +26,31 @@
 
 int main() {
 //    char ip[MAX_LENGTH];
-//    char mask[MAX_LENGTH];
     uint32_t numericIP, numericMask;
+    uint8_t octetIP[4], octetMask;
 
-    char ip[] = "192.168.1.1";
-    char mask[] = "255.255.255.0";
+    char ip[] = "192.168.10.8/24";
 
 //    printf("Entrez une adresse IP : ");
 //    fgets(ip, sizeof(ip), stdin);
 
-    if (!isValidAddress(ip)) {
-        printf("Adresse IP invalide\n");
-        return 1;
-    }
+//    if (!isValidAddress(ip)) {
+//        printf("Adresse IP invalide\n");
+//        return 1;
+//    }
+//
+//    printf("Adresse IP valide\n");
+//    printf("Masque valide\n");
 
-    printf("Adresse IP valide\n");
+    extractAddress(ip, octetIP, &octetMask);
 
-//    printf("Entrez un masque : ");
-//    fgets(mask, sizeof(mask), stdin);
+    printf("Adresse IP : %d.%d.%d.%d\n", octetIP[0], octetIP[1], octetIP[2], octetIP[3]);
+    printf("Masque de sous-réseau : /%d\n", octetMask);
 
-    if (!isValidAddress(mask)) {
-        printf("Masque invalide\n");
-        return 1;
-    }
-
-    printf("Masque valide\n");
-
-    extractNumericAddress(ip, mask, &numericIP, &numericMask);
-
-    printf("Numeric IP: %u\n", numericIP);
-    printf("Numeric Mask: %u\n", numericMask);
-
+//    extractNumericAddress(ip, &numericIP, &numericMask);
+//
+//    printf("Numeric IP: %u\n", numericIP);
+//    printf("Numeric Mask: %u\n", numericMask);
 
     return 0;
 }

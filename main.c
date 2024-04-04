@@ -26,8 +26,8 @@
 
 int main() {
 //    char ip[MAX_LENGTH];
-    uint32_t numericIP, numericMask;
     uint8_t octetIP[4], octetMask;
+    uint8_t intFieldIP[4], intMaskField[4];
 
     char ip[] = "192.168.10.8/24";
 
@@ -35,7 +35,7 @@ int main() {
 //    fgets(ip, sizeof(ip), stdin);
 
 //    if (!isValidAddress(ip)) {
-//        printf("Adresse IP invalide\n");
+//        printf("Adresse invalide\n");
 //        return 1;
 //    }
 //
@@ -47,10 +47,12 @@ int main() {
     printf("Adresse IP : %d.%d.%d.%d\n", octetIP[0], octetIP[1], octetIP[2], octetIP[3]);
     printf("Masque de sous-réseau : /%d\n", octetMask);
 
-//    extractNumericAddress(ip, &numericIP, &numericMask);
-//
-//    printf("Numeric IP: %u\n", numericIP);
-//    printf("Numeric Mask: %u\n", numericMask);
+    convertToInt(octetIP, octetMask, intFieldIP, intMaskField);
+
+    printf("IP INT : %d.%d.%d.%d\n", intFieldIP[0], intFieldIP[1], intFieldIP[2],
+           intFieldIP[3]);
+    printf("Masque INT : %d.%d.%d.%d\n", intMaskField[0], intMaskField[1], intMaskField[2],
+           intMaskField[3]);
 
     return 0;
 }

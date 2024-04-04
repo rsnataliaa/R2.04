@@ -57,18 +57,20 @@ void extractAddress(char *ip, uint8_t *octetIP, uint8_t *octetMask) {
     sscanf(ip, "%hhu.%hhu.%hhu.%hhu/%hhu", &octetIP[0], &octetIP[1], &octetIP[2], &octetIP[3], octetMask);
 }
 
-//void extractNumericAddress(char *ip, uint32_t *numericIP, uint32_t *numericMask) {
-//    uint8_t octetIP[4], octetMask[4];
-//
-//    extractAddress(ip, octetIP, octetMask);
-//
-//    *numericIP = (uint32_t) (octetIP[0]) << 24 |
-//                 (uint32_t) (octetIP[1]) << 16 |
-//                 (uint32_t) (octetIP[2]) << 8 |
-//                 (uint32_t) (octetIP[3]);
-//
-//    *numericMask = (uint32_t) (octetMask[0]) << 24 |
-//                   (uint32_t) (octetMask[1]) << 16 |
-//                   (uint32_t) (octetMask[2]) << 8 |
-//                   (uint32_t) (octetMask[3]);
-//}
+void convertToInt(uint8_t *octetIP, uint8_t octetMask, uint8_t *intFieldIP, uint8_t *intField) {
+    for (int i = 0; i < 4; i++) {
+        intFieldIP[i] = octetIP[i];
+    }
+
+    for (int i = 0; i < 4; i++) {
+        if (octetMask >= 8) {
+            intField[i] = 255;
+            octetMask -= 8;
+        } else if (octetMask > 0) {
+            intField[i] = (uint8_t) (255 << (8 - octetMask));
+            octetMask = 0;
+        } else {
+            intField[i] = 0;
+        }
+    }
+}

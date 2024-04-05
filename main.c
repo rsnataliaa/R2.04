@@ -20,39 +20,40 @@
  *                                                                             *
  ******************************************************************************/
 
-#include <stdio.h>
-#include <stdint.h>
-#include "analyse_ip.h"
+#include "extract_fields.h"
+#include "decode.h"
+#include "display.h"
 
 int main() {
 //    char ip[MAX_LENGTH];
     char octetIP1[4], octetIP2[4], octetIP3[4], octetIP4[4], octetMask[3];
-    uint8_t intFieldIP[4], intMaskField[4];
+    uint8_t intFieldIP[4], intMaskField[4], network[4], host[4];
+    char type[15];
 
-    char ip[] = "192.168.10.8/24";
+//    char ip[] = "192.168.10.8/24";
+    char ip[] = "224.0.0.1/0";
 
 //    printf("Entrez une adresse IP : ");
 //    fgets(ip, sizeof(ip), stdin);
 
     if (!isValidAddress(ip)) {
-        printf("Adresse invalide\n");
+        printInvalidAddress();
         return 1;
     }
-//
-    printf("Adresse IP valide\n");
-    printf("Masque valide\n");
 
     extractAddress(ip, octetIP1, octetIP2, octetIP3, octetIP4, octetMask);
 
-    printf("Adresse IP : %s.%s.%s.%s\n", octetIP1, octetIP2, octetIP3, octetIP4);
-    printf("Masque de sous-réseau : /%s\n", octetMask);
-
     convertToInt(octetIP1, octetIP2, octetIP3, octetIP4, octetMask, intFieldIP, intMaskField);
 
-    printf("IP INT : %d.%d.%d.%d\n", intFieldIP[0], intFieldIP[1], intFieldIP[2],
-           intFieldIP[3]);
-    printf("Masque INT : %d.%d.%d.%d\n", intMaskField[0], intMaskField[1], intMaskField[2],
-           intMaskField[3]);
+    printAddress(intFieldIP, intMaskField);
+
+    calculHostNetwork(intFieldIP, intMaskField, network, host);
+
+    printHostNet(network, host);
+
+    decodeIp(intFieldIP, type);
+
+    printAddressType(type);
 
     return 0;
 }

@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "analyse_ip.h"
+#include "extract_fields.h"
 #include <stdint.h>
 
 int isValidAddress(char *adresse) {
@@ -54,8 +54,8 @@ int isValidAddress(char *adresse) {
     return 1;
 }
 
-void
-extractAddress(char *ip, char octetIP1[4], char octetIP2[4], char octetIP3[4], char octetIP4[4], char octetMask[3]) {
+void extractAddress(char *ip, char octetIP1[4], char octetIP2[4], char octetIP3[4],
+                    char octetIP4[4], char octetMask[3]) {
     const char *separators = "./";
     char *ptr = strtok(ip, separators);
     int num_octets = 1;

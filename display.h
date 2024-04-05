@@ -16,19 +16,19 @@
 *                                                                             *
 *******************************************************************************
 *                                                                             *
-*  Nom du fichier : extract_fields.h                                          *
+*  Nom du fichier : display.h                                                 *
 *                                                                             *
 ******************************************************************************/
 
 #include <stdint.h>
+#include <stdio.h>
 
-#define MAX_LENGTH 20
-#define MAX_FIELD 5
+void printInvalidAddress(FILE *file);
 
-int isValidAddress(char *adresse);
+void printAddress(FILE *file, uint8_t *address, uint8_t *mask);
 
-void extractAddress(char *ip, char octetIP1[4], char octetIP2[4], char octetIP3[4],
-                    char octetIP4[4], char octetMask[3]);
+void printHostNet(FILE *file, uint8_t *network, uint8_t *host);
 
-void convertToInt(char *octetIP1, char *octetIP2, char *octetIP3, char *octetIP4, char *octetMask,
-                  uint8_t intFieldIP[4], uint8_t intFieldMask[4]);
+void printAddressType(FILE *file, char type[15]);
+
+void printClass(FILE *file, char classString[]);

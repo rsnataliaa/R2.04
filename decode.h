@@ -16,19 +16,14 @@
 *                                                                             *
 *******************************************************************************
 *                                                                             *
-*  Nom du fichier : extract_fields.h                                          *
+*  Nom du fichier : decode.h                                                  *
 *                                                                             *
 ******************************************************************************/
 
 #include <stdint.h>
 
-#define MAX_LENGTH 20
-#define MAX_FIELD 5
+void calculHostNetwork(uint8_t *intFieldIP, uint8_t *intFieldMask, uint8_t *network, uint8_t *host);
 
-int isValidAddress(char *adresse);
+void typeIP(uint8_t *address, char type[15]);
 
-void extractAddress(char *ip, char octetIP1[4], char octetIP2[4], char octetIP3[4],
-                    char octetIP4[4], char octetMask[3]);
-
-void convertToInt(char *octetIP1, char *octetIP2, char *octetIP3, char *octetIP4, char *octetMask,
-                  uint8_t intFieldIP[4], uint8_t intFieldMask[4]);
+void classIp(uint8_t firstOctet, char classString[]);

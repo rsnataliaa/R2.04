@@ -16,58 +16,47 @@
 *                                                                             *
 *******************************************************************************
 *                                                                             *
-*  Nom du fichier : main.c                                                    *
+*  Nom du fichier : display.c                                                 *
 *                                                                             *
 ******************************************************************************/
 
-#include "extract_fields.h"
-#include "decode.h"
 #include "display.h"
+#include "decode.h"
 #include <stdio.h>
 
-int main() {
-    char ip[MAX_LENGTH];
-    char octetIP1[4], octetIP2[4], octetIP3[4], octetIP4[4], octetMask[3];
-    uint8_t intFieldIP[4], intMaskField[4], network[4], host[4];
-    char type[15], classString[20];
+void printInvalidAddress(FILE *file) {
+    printf("Adresse invalide\n");
+    fprintf(file, "Adresse invalide\n");
+}
 
-    FILE *file = fopen("output.txt", "w");
+void printAddress(FILE *file, uint8_t *address, uint8_t *mask) {
+    printf("Adresse IP : %d.%d.%d.%d\n", address[0], address[1], address[2], address[3]);
+    printf("Masque de sous-réseau : %d.%d.%d.%d\n", mask[0], mask[1], mask[2], mask[3]);
+    fprintf(file, "Adresse IP : %d.%d.%d.%d\n", address[0], address[1], address[2], address[3]);
+    fprintf(file, "Masque de sous-réseau : %d.%d.%d.%d\n", mask[0], mask[1], mask[2], mask[3]);
+    printf("-------------------------------------\n");
+    fprintf(file, "-------------------------------------\n");
+}
 
-    if (file == NULL) {
-        printf("Erreur lors de l'ouverture du fichier\n");
-        return 1;
-    }
+void printHostNet(FILE *file, uint8_t *network, uint8_t *host) {
+    printf("Réseau : ");
+    printf("%d.%d.%d.%d\n", network[0], network[1], network[2], network[3]);
+    printf("Hôte : ");
+    printf("%d.%d.%d.%d\n", host[0], host[1], host[2], host[3]);
+    fprintf(file, "Réseau : ");
+    fprintf(file, "%d.%d.%d.%d\n", network[0], network[1], network[2], network[3]);
+    printf("-------------------------------------\n");
+    fprintf(file, "-------------------------------------\n");
+    fprintf(file, "Hôte : ");
+    fprintf(file, "%d.%d.%d.%d\n", host[0], host[1], host[2], host[3]);
+}
 
-    printf("R2.04 : Titouan Helbert et Natalia Ros\n\n");
-    fprintf(file, "R2.04 : Titouan Helbert et Natalia Ros\n\n");
+void printAddressType(FILE *file, char type[15]) {
+    printf("Type : %s\n", type);
+    fprintf(file, "Type : %s\n", type);
+}
 
-    printf("Entrez une adresse IP : ");
-    fgets(ip, sizeof(ip), stdin);
-
-    if (!isValidAddress(ip)) {
-        printInvalidAddress(file);
-        return 1;
-    }
-
-    extractAddress(ip, octetIP1, octetIP2, octetIP3, octetIP4, octetMask);
-
-    convertToInt(octetIP1, octetIP2, octetIP3, octetIP4, octetMask, intFieldIP, intMaskField);
-
-    printAddress(file, intFieldIP, intMaskField);
-
-    calculHostNetwork(intFieldIP, intMaskField, network, host);
-
-    printHostNet(file, network, host);
-
-    typeIP(intFieldIP, type);
-
-    printAddressType(file, type);
-
-    classIp(intFieldIP[0], classString);
-
-    printClass(file, classString);
-
-    fclose(file);
-
-    return 0;
+void printClass(FILE *file, char classString[]) {
+    printf("Classe : %s\n", classString);
+    fprintf(file, "Classe : %s\n", classString);
 }

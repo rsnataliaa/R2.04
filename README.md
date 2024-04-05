@@ -1,93 +1,134 @@
+
 # R2.04
+### **Titouan Helbert et Natalia Ros**
+## Projet 2 : Analyse d’adresses IP
 
+### Objectif de l'application développée
 
+Ce programme en langage C est conçu pour analyser les adresses IP. Il comprend plusieurs étapes, notamment la recherche du format des adresses IP et des masques réseau, l'identification des fonctions nécessaires, le développement de ces fonctions, et enfin la construction du programme principal pour répondre au sujet du projet.
 
-## Getting started
+## Fichiers inclus
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- `main.c`: Programme principal.
+- `decode.c`: Implémentation des fonctions pour décoder les adresses IP et les masques réseau.
+- `decode.h`: Déclarations des fonctions de décodage.
+- `display.c`: Implémentation des fonctions pour afficher les résultats.
+- `display.h`: Déclarations des fonctions d'affichage.
+- `extract_fields.c`: Implémentation des fonctions pour extraire les champs des adresses IP.
+- `extract_fields.h`: Déclarations des fonctions d'extraction de champs.
+- `makefile`: Fichier Makefile pour la compilation.
+- `output.txt`: Fichier texte généré avec les résultats.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Compilation et exécution
 
-## Add your files
+Pour compiler le projet, exécutez la commande suivante dans votre terminal : `make all`
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+Une fois la compilation terminée, exécutez le programme en utilisant la commande : `./analyser`
 
-```
-cd existing_repo
-git remote add origin https://gitlab.info.iut-tlse3.fr/hlt5003a/r2.04.git
-git branch -M main
-git push -uf origin main
-```
+Les résultats seront générés dans le fichier `output.txt`.
 
-## Integrate with your tools
+## Documentation des fonctions
 
-- [ ] [Set up project integrations](https://gitlab.info.iut-tlse3.fr/hlt5003a/r2.04/-/settings/integrations)
+### Fichier `extract_fields.h` :
 
-## Collaborate with your team
+#### `int isValidAddress(char *adresse)`
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+Cette fonction vérifie si une adresse IP donnée est valide.
 
-## Test and Deploy
+- Paramètres :
+  - `adresse` : Pointeur vers la chaîne de caractères représentant l'adresse IP.
+- Retour :
+  - `int` : 1 si l'adresse est valide, 0 sinon.
 
-Use the built-in continuous integration in GitLab.
+#### `void extractAddress(char *ip, char octetIP1[4], char octetIP2[4], char octetIP3[4], char octetIP4[4], char octetMask[3])`
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Cette fonction extrait les octets de l'adresse IP et du masque réseau.
 
-***
+- Paramètres :
+  - `ip` : Pointeur vers la chaîne de caractères représentant l'adresse IP.
+  - `octetIP1` à `octetMask` : Tableaux de caractères pour stocker les octets extraits.
+  
+#### `void convertToInt(char *octetIP1, char *octetIP2, char *octetIP3, char *octetIP4, char *octetMask, uint8_t intFieldIP[4], uint8_t intFieldMask[4])`
 
-# Editing this README
+Cette fonction convertit les octets de l'adresse IP et du masque réseau en entiers.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+- Paramètres :
+  - `octetIP1` à `octetIP4` : Octets de l'adresse IP.
+  - `octetMask` : Octet du masque réseau.
+  - `intFieldIP` : Tableau d'entiers pour stocker les octets de l'adresse IP convertis.
+  - `intFieldMask` : Tableau d'entiers pour stocker les octets du masque réseau convertis.
 
-## Suggestions for a good README
+### Fichier decode.h :
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+#### `void calculHostNetwork(uint8_t *intFieldIP, uint8_t *intFieldMask, uint8_t *network, uint8_t *host)`
 
-## Name
-Choose a self-explaining name for your project.
+Cette fonction calcule le réseau et l'hôte à partir des octets de l'adresse IP et du masque réseau.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+- Paramètres :
+  - `intFieldIP` : Tableau d'entiers représentant les octets de l'adresse IP.
+  - `intFieldMask` : Tableau d'entiers représentant les octets du masque réseau.
+  - `network` : Pointeur vers le tableau où sera stocké le réseau calculé.
+  - `host` : Pointeur vers le tableau où sera stocké l'hôte calculé.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+#### `void typeIP(uint8_t *address, char type[15])`
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Cette fonction détermine le type d'adresse IP (publique, privée, etc.).
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+- Paramètres :
+  - `address` : Tableau d'entiers représentant l'adresse IP.
+  - `type` : Chaîne de caractères pour stocker le type d'adresse.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+#### `void classIp(uint8_t firstOctet, char classString[])`
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Cette fonction détermine la classe de l'adresse IP (A, B, C, etc.).
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+- Paramètres :
+  - `firstOctet` : Premier octet de l'adresse IP.
+  - `classString` : Chaîne de caractères pour stocker la classe.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+### Fichier display.h :
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+#### `void printInvalidAddress(FILE *file)`
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Cette fonction imprime un message indiquant qu'une adresse IP est invalide.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+- Paramètres :
+  - `file` : Pointeur vers le fichier où imprimer le message.
 
-## License
-For open source projects, say how it is licensed.
+#### `void printAddress(FILE *file, uint8_t *address, uint8_t *mask)`
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Cette fonction imprime une adresse IP avec son masque réseau.
+
+- Paramètres :
+  - `file` : Pointeur vers le fichier où imprimer l'adresse.
+  - `address` : Tableau d'entiers représentant l'adresse IP.
+  - `mask` : Tableau d'entiers représentant le masque réseau.
+
+#### `void printHostNet(FILE *file, uint8_t *network, uint8_t *host)`
+
+Cette fonction imprime le réseau et l'hôte.
+
+- Paramètres :
+  - `file` : Pointeur vers le fichier où imprimer le réseau et l'hôte.
+  - `network` : Tableau d'entiers représentant le réseau.
+  - `host` : Tableau d'entiers représentant l'hôte.
+
+#### `void printAddressType(FILE *file, char type[15])`
+
+Cette fonction imprime le type d'adresse IP.
+
+- Paramètres :
+  - `file` : Pointeur vers le fichier où imprimer le type d'adresse.
+  - `type` : Chaîne de caractères représentant le type d'adresse.
+
+#### `void printClass(FILE *file, char classString[])`
+
+Cette fonction imprime la classe de l'adresse IP.
+
+- Paramètres :
+  - `file` : Pointeur vers le fichier où imprimer la classe d'adresse.
+  - `classString` : Chaîne de caractères représentant la classe d'adresse.
+
+## Dépôt GitLab
+
+[Lien vers le dépôt](https://gitlab.info.iut-tlse3.fr/hlt5003a/r2.04)

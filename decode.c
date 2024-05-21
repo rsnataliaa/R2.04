@@ -38,7 +38,7 @@ void typeIP(uint8_t *address, char type[15]) {
         (address[0] == 172 && (address[1] >= 16 && address[1] <= 31)) ||
         (address[0] == 192 && address[1] == 168)) {
         strcpy(type, "Privé");
-    } else if (address[0] == 127 && address[1] == 0 && address[2] == 0 && address[3] == 1) {
+    } else if (address[0] == 127) {
         strcpy(type, "Localhost");
     } else if (address[3] == 255) {
         strcpy(type, "Broadcast");
@@ -46,7 +46,7 @@ void typeIP(uint8_t *address, char type[15]) {
         strcpy(type, "Multicast");
     } else if ((address[0] == 0) ||
                (address[0] >= 224 && address[0] <= 239) ||
-               (address[0] == 255 && address[1] == 255 && address[2] == 255 && address[3] == 255)) {
+                       (address[0] == 255 && address[1] == 255 && address[2] == 255 && address[3] == 255)) {
         strcpy(type, "Erreur");
     } else {
         strcpy(type, "Publique");

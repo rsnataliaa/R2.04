@@ -29,7 +29,7 @@ Les résultats seront générés dans le fichier `output.txt`.
 
 ## Documentation des fonctions
 
-### Fichier `extract_fields.h` :
+### Fichier extract_fields.h :
 
 #### `int isValidAddress(char *adresse)`
 
